@@ -1087,6 +1087,7 @@
             setTimeout(speakWelcome, 600);
         });
 
+        // Escuchadores para desbloquear el audio en Google Chrome tras la primera interacción
         const triggerSpeechOnInteraction = () => {
             speakWelcome();
             document.removeEventListener('click', triggerSpeechOnInteraction);

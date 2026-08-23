@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarjeta de Presentación Digital - Rinconada Florería</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #f0edb7;
+            background: radial-gradient(circle, #f7f5f0 0%, #e8e3d8 100%);
+        }
+        .font-serif-title {
+            font-family: 'Playfair Display', serif;
+        }
+        .card-container {
+            width: 100%;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #ffffff;
+            box-shadow: 0 25px 50px -12px rgba(18, 35, 24, 0.3);
+        }
+        @media (min-width: 450px) {
+            .card-container {
+                max-width: 420px;
+                margin: 2rem auto;
+                min-height: calc(100vh - 4rem);
+                border-radius: 24px;
+                overflow: hidden;
+            }
+        }
+        .main-bg {
+            background-image: url('Rinconada_fondo.jpeg');
+            background-size: cover;
+            background-position: center;
+            height: 210px;
+        }
+        .content-section {
+            background: linear-gradient(180deg, #122318 0%, #09120c 100%);
+            margin-top: -60px;
+            border-top-left-radius: 50px;
+            border-top-right-radius: 50px;
+            position: relative;
+            padding-bottom: 2rem;
+            flex-grow: 1;
+        }
+        .profile-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin-top: -105px;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+            z-index: 10;
+        }
+        .profile-container:hover, .profile-container:active {
+            transform: scale(1.28);
+        }
+        .profile-pic {
+            width: 100%;
+            height: 100%;
+            border: 4px solid #c5a059;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            transition: all 0.4s ease;
+        }
+        .profile-container:hover .profile-pic {
+            border-color: #d4b37a;
+            box-shadow: 0 15px 35px rgba(197, 160, 89, 0.6);
+        }
+        .verification-badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: linear-gradient(135deg, #d4b37a 0%, #b58f50 100%);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #ffffff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+        .action-btn {
+            background: linear-gradient(135deg, #c5a059 0%, #a47e3b 100%);
+            color: #ffffff;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.35);
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .action-btn:hover {
+            background: linear-gradient(135deg, #d4b37a 0%, #b58f50 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(197, 160, 89, 0.5);
+        }
+        .social-btn {
+            background-color: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            color: #f7f5f0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            backdrop-filter: blur(6px);
+        }
+        .social-btn:hover {
+            background-color: rgba(197, 160, 89, 0.2);
+            border-color: #d4b37a;
+            transform: translateY(-2px);
+            color: #ffffff;
+        }
+        .footer-banner {
+            background-color: #f7f4ee;
+            color: #122318;
+            border-top: 1px solid #e2d7c3;
+        }
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(9, 18, 12, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            backdrop-filter: blur(6px);
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background: #ffffff;
+            border-radius: 20px;
+            max-width: 90%;
+            width: 500px;
+            max-height: 95vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transform: scale(0.95) translateY(20px);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            border: 3px solid #d4b37a;
+            opacity: 0;
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+        .modal-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #f0eadd;
+            position: relative;
+        }
+        .modal-header-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+            color: #122318;
+            max-width: calc(100% - 90px);
+            margin: 0 auto;
+            font-family: 'Playfair Display', serif;
+        }
+        .modal-header-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, #c5a059, #d4b37a);
+            margin: 8px auto 0;
+            border-radius: 2px;
+        }
+        .modal-body {
+            padding: 1.5rem;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .modal-close-btn {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: #f7f4ee;
+            color: #122318;
+            border-radius: 99px;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            border: 1px solid #e2d7c3;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .modal-close-btn:hover {
+            background-color: #c5a059;
+            color: #ffffff;
+            transform: rotate(90deg);
+        }
+    </style>
+</head>
+<body class="bg-gray-200">
+
+    <div class="card-container">
+        <div class="main-bg"></div>
+        <div class="content-section">
+            <div class="flex flex-col items-center px-6 text-center">
+                <div class="profile-container">
+                    <img src="Rinconada_logo.png" 
+                         alt="Rinconada Florería"
+                         onerror="this.onerror=null; this.src='https://placehold.co/300x300/122318/d4b37a?text=RF';"
+                         class="profile-pic object-cover rounded-full w-full h-full">
+                    <div class="verification-badge">
+                        <i class="fas fa-crown text-xs"></i>
+                    </div>
+                </div>
+                
+                <h1 class="text-3xl font-bold text-white mt-4 tracking-wide font-serif-title">Rinconada Florería</h1>
+                <p class="text-sm text-[#d4b37a] font-medium tracking-widest uppercase mt-1">
+                    By <span class="font-bold text-white underline decoration-[#c5a059] decoration-2 underline-offset-4">Jorge Hernandez</span> since 1989
+                </p>
+                <p class="text-xs text-gray-300 mt-1 opacity-90"></p>
+                
+                <p class="text-gray-200 opacity-95 mt-4 max-w-sm italic text-xs leading-relaxed font-light">
+                    "Diseño floral exclusivo para eventos inolvidables."
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 w-full max-w-xs mx-auto mt-7">
+                    <div id="info-btn" class="action-btn flex-1 flex items-center justify-center gap-2 font-medium py-3 px-4 rounded-full text-sm whitespace-nowrap text-center">
+                        <i class="fas fa-gem text-amber-100 text-sm"></i>
+                        <span>Nuestra Marca</span>
+                    </div>
+                    <div id="call-btn" class="action-btn flex-1 flex items-center justify-center gap-2 font-medium py-3 px-4 rounded-full text-sm whitespace-nowrap text-center cursor-pointer">
+                        <i class="fas fa-phone-alt text-amber-100 text-sm"></i>
+                        <span>Llamar</span>
+                    </div>
+                </div>
+                
+                <p class="text-xs text-[#d4b37a] opacity-80 mt-7 tracking-wider uppercase font-medium">Toca para explorar</p>
+
+                <div class="grid grid-cols-4 gap-3 w-full max-w-sm mx-auto mt-3">
+                    <div id="services-btn" class="social-btn flex flex-col justify-center items-center py-3 w-full h-20 rounded-2xl cursor-pointer">
+                        <i class="fas fa-seedling text-2xl text-[#d4b37a]"></i>
+                        <span class="text-[11px] mt-2 font-medium">Servicios</span>
+                    </div>
+                    <div id="horario-btn" class="social-btn flex flex-col justify-center items-center py-3 w-full h-20 rounded-2xl cursor-pointer">
+                        <i class="fas fa-clock text-2xl text-[#d4b37a]"></i>
+                        <span class="text-[11px] mt-2 font-medium">Horario</span>
+                    </div>
+                    <div id="qr-code-btn" class="social-btn flex flex-col justify-center items-center py-3 w-full h-20 rounded-2xl cursor-pointer">
+                        <i class="fas fa-qrcode text-2xl text-[#d4b37a]"></i>
+                        <span class="text-[11px] mt-2 font-medium">Código QR</span>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=19.427361,-102.036250" target="_blank" class="social-btn flex flex-col justify-center items-center py-3 w-full h-20 rounded-2xl">
+                        <i class="fas fa-map-marker-alt text-2xl text-[#d4b37a]"></i>
+                        <span class="text-[11px] mt-2 font-medium">Ubicación</span>
+                    </a>
+                    <a href="https://www.facebook.com/share/19eYb7LgMc/" target="_blank" class="social-btn flex flex-col justify-center items-center py-3 w-full h-20 rounded-2xl">
+                        <i class="fab fa-facebook-f text-2xl text-[#d4b37a]"></i>
+                        <span class="text-[11px] mt-2 font-medium">Facebook</span>
+                    </a>
+                    <div id="social-whatsapp-btn" class="social-btn flex flex-col justify-center items-center py-3 w-full h-20 rounded-2xl cursor-pointer">
+                        <i class="fab fa-whatsapp text-2xl text-[#d4b37a]"></i>
+                        <span class="text-[11px] mt-2 font-medium">WhatsApp</span>
+                    </div>
+                    <div id="save-contact-btn" class="social-btn flex flex-col justify-center items-center py-3 w-full h-20 rounded-2xl cursor-pointer">
+                        <i class="fas fa-bookmark text-2xl text-[#d4b37a]"></i>
+                        <span class="text-[11px] mt-2 font-medium">Guardar</span>
+                    </div>
+                    <div id="install-btn" class="social-btn flex flex-col justify-center items-center py-3 w-full h-20 rounded-2xl cursor-pointer">
+                        <i class="fas fa-mobile-alt text-2xl text-[#d4b37a]"></i>
+                        <span class="text-[11px] mt-2 font-medium">Instalar</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-banner text-center pt-4 px-0 pb-0 font-normal relative flex flex-col items-center">
+            <p class="font-serif-title text-sm text-[#122318] italic px-4">"Transformando emociones en arte floral memorable..."</p>
+            <br>
+            <a href="mailto:kikico007@gmail.com" class="block text-xs text-[#8c6d32] hover:underline mt-1 font-medium px-4 mb-3">Email: kikico007@gmail.com</a>
+            
+            <!-- Botón discreto para mostrar Diseñador y Desarrollador -->
+            <button onclick="toggleCredits()" title="Desarrollo e Ingeniería" class="mb-2.5 text-[#8c8273] hover:text-[#122318] flex items-center justify-center bg-[#ede8de]/60 hover:bg-[#ede8de] w-8 h-8 rounded-full transition-all border border-[#e2d7c3]/70 cursor-pointer shadow-sm active:scale-95">
+                <i class="fas fa-laptop-code text-[#c5a059] text-xs"></i>
+            </button>
+
+            <!-- Pie de crédito de Adry System's (oculto por defecto) -->
+            <div id="credits-banner" class="hidden w-full bg-[#ede8de] text-[#8c8273] border-t border-[#e2d7c3] py-2 px-4 text-[10px] flex items-center justify-center gap-1.5 select-none">
+                <i class="fas fa-laptop-code text-[#b3a898] text-[9px]"></i>
+                <span class="font-light">Desarrollo e Ingeniería: <strong class="text-[#5e5649] font-medium">Adry System´s</strong></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE NUESTRA MARCA -->
+    <div id="info-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-header-title">Nuestra Marca</h2>
+                <button class="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body text-center flex flex-col items-center justify-center">
+                <p class="text-gray-700 mb-4 font-serif-title text-base italic">Exclusividad y vanguardia en cada diseño</p>
+                <div class="w-60 h-60 rounded-full border-4 border-[#d4b37a] shadow-2xl overflow-hidden bg-white flex items-center justify-center mb-4 transition-transform hover:scale-105 duration-300">
+                     <img src="Rinconada_logo.png" 
+                          alt="Logo Rinconada Florería" 
+                          onerror="this.onerror=null; this.src='https://placehold.co/300x300/122318/d4b37a?text=RF';"
+                          class="w-full h-full object-cover">
+                </div>
+                <p class="text-xs text-gray-500 mt-2">Diseños Florales Exclusivos.<br> Rinconada Florería.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE SERVICIOS -->
+    <div id="services-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="services-modal-title" class="modal-header-title">Nuestros Servicios</h2>
+                <button id="services-back-btn" class="absolute left-3 top-3.5 bg-[#f7f4ee] text-[#122318] border border-[#e2d7c3] rounded-full w-9 h-9 flex items-center justify-center cursor-pointer transition hover:bg-[#c5a059] hover:text-white hidden text-sm">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <button class="modal-close-btn">&times;</button>
+            </div>
+            <div id="services-modal-body" class="modal-body">
+                <div class="flex flex-col gap-3" id="services-list-container">
+
+                    <!-- Servicio 1: Decoración de Iglesias -->
+                    <div class="border border-[#e2d7c3] rounded-xl shadow-sm overflow-hidden">
+                        <div class="flex items-center justify-between p-3 gap-2 bg-[#f8f6f0]">
+                            <div class="flex items-center gap-2 cursor-pointer flex-grow min-w-0 group" onclick="toggleAccordion('serv-1')">
+                                <i class="fas fa-church text-[#c5a059] text-base w-4 text-center flex-shrink-0"></i>
+                                <h3 class="font-semibold text-[#122318] text-xs truncate">1. Decoración de Iglesias</h3>
+                                <div id="icon-serv-1" class="w-6 h-6 rounded-full bg-[#c5a059] text-white flex items-center justify-center text-[10px] transition-all duration-300 flex-shrink-0 shadow-md ring-2 ring-[#c5a059]/30">
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1 flex-shrink-0">
+                                <a href="https://wa.me/524525004007?text=¡Hola!%20Me%20interesa%20información%20sobre%20Decoración%20de%20Iglesias" target="_blank" class="bg-[#122318] text-[#d4b37a] text-[10px] px-2 py-1.5 rounded-full whitespace-nowrap flex items-center gap-1 hover:bg-[#1d3626] transition shadow-sm">
+                                    <i class="fab fa-whatsapp"></i> Cotizar
+                                </a>
+                            </div>
+                        </div>
+                        <div id="serv-1" class="hidden px-4 pb-3 text-xs text-gray-700 bg-[#ffffff] border-t border-[#f0eadd]">
+                            <p class="pt-2">Diseñamos y montamos arreglos florales solemnes y elegantes para transformar recintos religiosos en atmósferas sagradas memorables, cuidando cada detalle del altar, pasillos y accesos principales.</p>
+                            <button onclick="verCatalogo('iglesias')" class="mt-3 bg-[#c5a059] text-white text-xs px-3.5 py-2 rounded-full font-medium inline-flex items-center gap-1.5 hover:bg-[#b58f50] transition shadow-sm">
+                                <i class="fas fa-images"></i> Catálogo
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Servicio 2: Ramos Quinceañera/Novia -->
+                    <div class="border border-[#e2d7c3] rounded-xl shadow-sm overflow-hidden">
+                        <div class="flex items-center justify-between p-3 gap-2 bg-[#f8f6f0]">
+                            <div class="flex items-center gap-2 cursor-pointer flex-grow min-w-0 group" onclick="toggleAccordion('serv-2')">
+                                <i class="fas fa-crown text-[#c5a059] text-base w-4 text-center flex-shrink-0"></i>
+                                <h3 class="font-semibold text-[#122318] text-xs truncate">2. Ramos Quinceañera / Novia</h3>
+                                <div id="icon-serv-2" class="w-6 h-6 rounded-full bg-[#c5a059] text-white flex items-center justify-center text-[10px] transition-all duration-300 flex-shrink-0 shadow-md ring-2 ring-[#c5a059]/30">
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1 flex-shrink-0">
+                                <a href="https://wa.me/524525004007?text=¡Hola!%20Me%20interesa%20información%20sobre%20Ramos%20para%20Quinceañera%20o%20Novia" target="_blank" class="bg-[#122318] text-[#d4b37a] text-[10px] px-2 py-1.5 rounded-full whitespace-nowrap flex items-center gap-1 hover:bg-[#1d3626] transition shadow-sm">
+                                    <i class="fab fa-whatsapp"></i> Cotizar
+                                </a>
+                            </div>
+                        </div>
+                        <div id="serv-2" class="hidden px-4 pb-3 text-xs text-gray-700 bg-[#ffffff] border-t border-[#f0eadd]">
+                            <p class="pt-2">Creamos ramos de autor personalizados con flores frescas y exclusivas, diseñados para complementar con distinción y armonía la personalidad y el vestido en ese gran día.</p>
+                            <button onclick="verCatalogo('ramos')" class="mt-3 bg-[#c5a059] text-white text-xs px-3.5 py-2 rounded-full font-medium inline-flex items-center gap-1.5 hover:bg-[#b58f50] transition shadow-sm">
+                                <i class="fas fa-images"></i> Catálogo
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Servicio 3: Decoración de Carros -->
+                    <div class="border border-[#e2d7c3] rounded-xl shadow-sm overflow-hidden">
+                        <div class="flex items-center justify-between p-3 gap-2 bg-[#f8f6f0]">
+                            <div class="flex items-center gap-2 cursor-pointer flex-grow min-w-0 group" onclick="toggleAccordion('serv-3')">
+                                <i class="fas fa-car text-[#c5a059] text-base w-4 text-center flex-shrink-0"></i>
+                                <h3 class="font-semibold text-[#122318] text-xs truncate">3. Decoración de Carros</h3>
+                                <div id="icon-serv-3" class="w-6 h-6 rounded-full bg-[#c5a059] text-white flex items-center justify-center text-[10px] transition-all duration-300 flex-shrink-0 shadow-md ring-2 ring-[#c5a059]/30">
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1 flex-shrink-0">
+                                <a href="https://wa.me/524525004007?text=¡Hola!%20Me%20interesa%20información%20sobre%20Decoración%20de%20Carros" target="_blank" class="bg-[#122318] text-[#d4b37a] text-[10px] px-2 py-1.5 rounded-full whitespace-nowrap flex items-center gap-1 hover:bg-[#1d3626] transition shadow-sm">
+                                    <i class="fab fa-whatsapp"></i> Cotizar
+                                </a>
+                            </div>
+                        </div>
+                        <div id="serv-3" class="hidden px-4 pb-3 text-xs text-gray-700 bg-[#ffffff] border-t border-[#f0eadd]">
+                            <p class="pt-2">Ofrecemos el servicio de decoración floral para vehículos de ceremonia, empleando técnicas de fijación segura que garantizan frescura y elegancia durante todo el recorrido.</p>
+                            <button onclick="verCatalogo('carros')" class="mt-3 bg-[#c5a059] text-white text-xs px-3.5 py-2 rounded-full font-medium inline-flex items-center gap-1.5 hover:bg-[#b58f50] transition shadow-sm">
+                                <i class="fas fa-images"></i> Catálogo
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Servicio 4: Centros de mesa -->
+                    <div class="border border-[#e2d7c3] rounded-xl shadow-sm overflow-hidden">
+                        <div class="flex items-center justify-between p-3 gap-2 bg-[#f8f6f0]">
+                            <div class="flex items-center gap-2 cursor-pointer flex-grow min-w-0 group" onclick="toggleAccordion('serv-4')">
+                                <i class="fas fa-spa text-[#c5a059] text-base w-4 text-center flex-shrink-0"></i>
+                                <h3 class="font-semibold text-[#122318] text-xs truncate">4. Centros de Mesa</h3>
+                                <div id="icon-serv-4" class="w-6 h-6 rounded-full bg-[#c5a059] text-white flex items-center justify-center text-[10px] transition-all duration-300 flex-shrink-0 shadow-md ring-2 ring-[#c5a059]/30">
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1 flex-shrink-0">
+                                <a href="https://wa.me/524525004007?text=¡Hola!%20Me%20interesa%20información%20sobre%20Centros%20de%20Mesa" target="_blank" class="bg-[#122318] text-[#d4b37a] text-[10px] px-2 py-1.5 rounded-full whitespace-nowrap flex items-center gap-1 hover:bg-[#1d3626] transition shadow-sm">
+                                    <i class="fab fa-whatsapp"></i> Cotizar
+                                </a>
+                            </div>
+                        </div>
+                        <div id="serv-4" class="hidden px-4 pb-3 text-xs text-gray-700 bg-[#ffffff] border-t border-[#f0eadd]">
+                            <p class="pt-2">Desarrollamos conceptos florales originales y sofisticados para mesas de banquete en bautizos, bodas, quince años y eventos sociales, adaptados por completo al estilo de la celebración.</p>
+                            <button onclick="verCatalogo('centros')" class="mt-3 bg-[#c5a059] text-white text-xs px-3.5 py-2 rounded-full font-medium inline-flex items-center gap-1.5 hover:bg-[#b58f50] transition shadow-sm">
+                                <i class="fas fa-images"></i> Catálogo
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Servicio 5: Arreglos fúnebres -->
+                    <div class="border border-[#e2d7c3] rounded-xl shadow-sm overflow-hidden">
+                        <div class="flex items-center justify-between p-3 gap-2 bg-[#f8f6f0]">
+                            <div class="flex items-center gap-2 cursor-pointer flex-grow min-w-0 group" onclick="toggleAccordion('serv-5')">
+                                <i class="fas fa-ribbon text-[#c5a059] text-base w-4 text-center flex-shrink-0"></i>
+                                <h3 class="font-semibold text-[#122318] text-xs truncate">5. Arreglos Fúnebres</h3>
+                                <div id="icon-serv-5" class="w-6 h-6 rounded-full bg-[#c5a059] text-white flex items-center justify-center text-[10px] transition-all duration-300 flex-shrink-0 shadow-md ring-2 ring-[#c5a059]/30">
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1 flex-shrink-0">
+                                <a href="https://wa.me/524525004007?text=¡Hola!%20Me%20interesa%20información%20sobre%20Arreglos%20Fúnebres" target="_blank" class="bg-[#122318] text-[#d4b37a] text-[10px] px-2 py-1.5 rounded-full whitespace-nowrap flex items-center gap-1 hover:bg-[#1d3626] transition shadow-sm">
+                                    <i class="fab fa-whatsapp"></i> Cotizar
+                                </a>
+                            </div>
+                        </div>
+                        <div id="serv-5" class="hidden px-4 pb-3 text-xs text-gray-700 bg-[#ffffff] border-t border-[#f0eadd]">
+                            <p class="pt-2">Elaboramos arreglos de condolencia formales y solemnes con coronas, pedestales y arreglos florales sobrios, brindando apoyo y respeto a través del arte floral en momentos difíciles.</p>
+                            <button onclick="verCatalogo('funebres')" class="mt-3 bg-[#c5a059] text-white text-xs px-3.5 py-2 rounded-full font-medium inline-flex items-center gap-1.5 hover:bg-[#b58f50] transition shadow-sm">
+                                <i class="fas fa-images"></i> Catálogo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONTENEDOR DEL SLIDER DE CATÁLOGO (OCULTO POR DEFECTO) -->
+                <div id="catalog-slider-container" class="hidden flex flex-col h-full">
+                    <div class="mb-3 text-center bg-[#f0ebd9]/60 border border-[#d4b37a]/30 rounded-xl p-3 shadow-sm">
+                        <p id="catalog-desc" class="text-xs text-gray-800 leading-relaxed font-medium"></p>
+                    </div>
+                    
+                    <div class="relative w-full overflow-hidden rounded-xl border border-[#e2d7c3] bg-[#f8f6f0] flex-grow flex flex-col shadow-inner">
+                        <div id="slider-track" class="flex transition-transform duration-500 ease-out h-full">
+                            <!-- Slides inyectados por JS -->
+                        </div>
+                        
+                        <button id="slider-prev" onclick="moveSlider(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#122318]/70 text-[#d4b37a] flex items-center justify-center hover:bg-[#122318] transition shadow-md z-10">
+                            <i class="fas fa-chevron-left text-xs"></i>
+                        </button>
+                        <button id="slider-next" onclick="moveSlider(1)" class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#122318]/70 text-[#d4b37a] flex items-center justify-center hover:bg-[#122318] transition shadow-md z-10">
+                            <i class="fas fa-chevron-right text-xs"></i>
+                        </button>
+                    </div>
+
+                    <div id="slider-dots" class="flex justify-center items-center gap-2 mt-3">
+                        <!-- Dots inyectados por JS -->
+                    </div>
+
+                    <div id="slider-cta-container" class="mt-4">
+                        <!-- CTA inyectado por JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE LÍNEAS TELEFÓNICAS -->
+    <div id="call-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-header-title">Líneas de Atención</h2>
+                <button class="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="text-xs text-gray-600 text-center mb-4">Selecciona la línea telefónica de tu preferencia para atención directa o mensaje vía WhatsApp:</p>
+                <div class="space-y-3">
+                    <div class="bg-[#f8f6f0] border border-[#e2d7c3] rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+                        <div class="text-center sm:text-left">
+                            <span class="text-[10px] uppercase tracking-widest font-bold text-[#c5a059]">Línea Principal</span>
+                            <p class="font-bold text-[#122318] text-sm mt-0.5">+52 452 500 4007</p>
+                        </div>
+                        <div class="flex items-center gap-2 w-full sm:w-auto">
+                            <a href="tel:+524525004007" class="flex-1 sm:flex-none bg-[#122318] text-[#d4b37a] text-xs px-3.5 py-2 rounded-full font-medium flex items-center justify-center gap-1.5 hover:bg-[#1d3626] transition">
+                                <i class="fas fa-phone-alt"></i> Llamar
+                            </a>
+                            <a href="https://wa.me/524525004007?text=HOLA,%20REVISE%20TU%20TARJETA,%20ME%20INTERESA%20UNO%20DE%20TUS%20SERVICIOS..." target="_blank" class="flex-1 sm:flex-none bg-[#25d366] text-white text-xs px-3.5 py-2 rounded-full font-medium flex items-center justify-center gap-1.5 hover:opacity-90 transition">
+                                <i class="fab fa-whatsapp"></i> Chat
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#f8f6f0] border border-[#e2d7c3] rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+                        <div class="text-center sm:text-left">
+                            <span class="text-[10px] uppercase tracking-widest font-bold text-[#c5a059]">Línea Secundaria</span>
+                            <p class="font-bold text-[#122318] text-sm mt-0.5">+52 452 182 1523</p>
+                        </div>
+                        <div class="flex items-center gap-2 w-full sm:w-auto">
+                            <a href="tel:+524521821523" class="flex-1 sm:flex-none bg-[#122318] text-[#d4b37a] text-xs px-3.5 py-2 rounded-full font-medium flex items-center justify-center gap-1.5 hover:bg-[#1d3626] transition">
+                                <i class="fas fa-phone-alt"></i> Llamar
+                            </a>
+                            <a href="https://wa.me/524521821523?text=HOLA,%20REVISE%20TU%20TARJETA,%20ME%20INTERESA%20UNO%20DE%20TUS%20SERVICIOS..." target="_blank" class="flex-1 sm:flex-none bg-[#25d366] text-white text-xs px-3.5 py-2 rounded-full font-medium flex items-center justify-center gap-1.5 hover:opacity-90 transition">
+                                <i class="fab fa-whatsapp"></i> Chat
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE HORARIO -->
+    <div id="horario-modal" class="modal-overlay">
+        <div class="modal-content">
+             <div class="modal-header">
+                <h2 class="modal-header-title">Horario de Atención</h2>
+                <button class="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="space-y-4 text-gray-700">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-[#e2d7c3]/60 pb-3.5 gap-2">
+                        <span class="font-semibold text-[#122318] flex items-center gap-2 text-xs">
+                            <i class="far fa-calendar-alt w-5 text-center text-[#c5a059] text-sm"></i>Lunes a Viernes
+                        </span>
+                        <div class="flex flex-col items-end gap-1.5 w-full sm:w-auto">
+                            <span class="inline-flex items-center gap-1.5 font-mono bg-gradient-to-r from-[#122318] to-[#1d3626] text-[#f7f5f0] border border-[#c5a059]/40 px-3 py-1 rounded-lg text-xs font-medium shadow-sm w-full sm:w-auto justify-between sm:justify-start">
+                                <span class="text-[10px] text-[#d4b37a] uppercase tracking-wider">Mañana:</span> 10:00 am - 2:00 pm
+                            </span>
+                            <span class="inline-flex items-center gap-1.5 font-mono bg-gradient-to-r from-[#122318] to-[#1d3626] text-[#f7f5f0] border border-[#c5a059]/40 px-3 py-1 rounded-lg text-xs font-medium shadow-sm w-full sm:w-auto justify-between sm:justify-start">
+                                <span class="text-[10px] text-[#d4b37a] uppercase tracking-wider">Tarde:</span> 4:00 pm - 7:00 pm
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-[#e2d7c3]/60 pb-3.5">
+                        <span class="font-semibold text-[#122318] flex items-center gap-2 text-xs">
+                            <i class="far fa-calendar w-5 text-center text-[#c5a059] text-sm"></i>Sábado
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 font-mono bg-gradient-to-r from-[#122318] to-[#1d3626] text-[#f7f5f0] border border-[#c5a059]/40 px-3 py-1.5 rounded-lg text-xs font-medium shadow-sm">
+                            <span class="text-[10px] text-[#d4b37a] uppercase tracking-wider">Único:</span> 10:00 am - 2:00 pm
+                        </span>
+                    </div>
+                    <div class="flex justify-between items-center py-1">
+                        <span class="font-semibold text-[#122318] flex items-center gap-2 text-xs">
+                            <i class="far fa-calendar-times w-5 text-center text-[#c5a059] text-sm"></i>Domingo
+                        </span>
+                        <span class="font-mono bg-red-50 text-red-700 border border-red-200 px-3 py-1.5 rounded-lg text-xs font-semibold shadow-sm flex items-center gap-1.5">
+                            <i class="fas fa-ban text-[10px]"></i> Sin servicio
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE INSTALACIÓN -->
+    <div id="install-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-header-title">Guarde Nuestra Tarjeta</h2>
+                <button class="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body p-6">
+                <div class="text-center mb-6">
+                    <span class="inline-block p-3 rounded-full bg-[#f8f6f0] border border-[#c5a059]/40 text-[#c5a059] mb-2 shadow-sm">
+                        <i class="fas fa-mobile-alt text-xl"></i>
+                    </span>
+                    <p class="text-xs text-gray-600 leading-relaxed max-w-xs mx-auto">
+                        Lleve el contacto exclusivo de <strong class="text-[#122318] font-semibold">Rinconada Florería</strong> directamente en su pantalla de inicio para un acceso rápido y elegante.
+                    </p>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="bg-gradient-to-r from-[#f8f6f0] to-[#fffdf9] border border-[#e2d7c3] rounded-2xl p-4 shadow-sm transition-all duration-300 hover:shadow-md">
+                        <div class="flex items-center gap-3 mb-2.5">
+                            <div class="w-9 h-9 rounded-xl bg-[#122318] text-[#d4b37a] flex items-center justify-center text-sm shadow-sm flex-shrink-0">
+                                <i class="fab fa-apple"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-serif-title font-semibold text-[#122318] text-sm">Dispositivos iOS (iPhone / Safari)</h3>
+                                <p class="text-[10px] text-[#c5a059] font-medium uppercase tracking-wider">Paso a paso</p>
+                            </div>
+                        </div>
+                        <ol class="text-xs text-gray-700 space-y-2 pl-4 list-decimal marker:text-[#c5a059]">
+                            <li>Toca el ícono de <strong class="text-[#122318]">Compartir</strong> <i class="fas fa-share-square text-[#c5a059] mx-0.5"></i> en la barra inferior de Safari.</li>
+                            <li>Desplázate y selecciona <strong class="text-[#122318]">"Agregar a la pantalla de inicio"</strong>.</li>
+                        </ol>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-[#f8f6f0] to-[#fffdf9] border border-[#e2d7c3] rounded-2xl p-4 shadow-sm transition-all duration-300 hover:shadow-md">
+                        <div class="flex items-center gap-3 mb-2.5">
+                            <div class="w-9 h-9 rounded-xl bg-[#122318] text-[#d4b37a] flex items-center justify-center text-sm shadow-sm flex-shrink-0">
+                                <i class="fab fa-android"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-serif-title font-semibold text-[#122318] text-sm">Dispositivos Android (Chrome)</h3>
+                                <p class="text-[10px] text-[#c5a059] font-medium uppercase tracking-wider">Paso a paso</p>
+                            </div>
+                        </div>
+                        <ol class="text-xs text-gray-700 space-y-2 pl-4 list-decimal marker:text-[#c5a059]">
+                            <li>Toca los <strong class="text-[#122318]">tres puntos verticales</strong> <i class="fas fa-ellipsis-v text-[#c5a059] mx-0.5"></i> en la esquina superior derecha.</li>
+                            <li>Selecciona <strong class="text-[#122318]">"Agregar a la pantalla principal"</strong> o "Instalar aplicación".</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="mt-5 text-center">
+                    <p class="text-[10px] text-gray-400 italic">La tarjeta quedará lista como una aplicación exclusiva en su dispositivo.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- MODAL DE CÓDIGO QR -->
+    <div id="qr-code-modal" class="modal-overlay">
+        <div class="modal-content">
+             <div class="modal-header">
+                <h2 class="modal-header-title">Código QR de Contacto</h2>
+                <button class="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body text-center">
+                <p class="text-xs text-gray-600 mb-4">Selecciona el contacto para generar el código QR de escaneo:</p>
+                <div class="flex justify-center gap-2 mb-4">
+                    <button onclick="setQRContact('principal')" id="qr-btn-principal" class="bg-[#122318] text-[#d4b37a] text-xs px-3 py-1.5 rounded-full font-medium transition shadow-sm border border-[#c5a059]">Principal</button>
+                    <button onclick="setQRContact('secundario')" id="qr-btn-secundario" class="bg-[#f7f4ee] text-[#122318] text-xs px-3 py-1.5 rounded-full font-medium transition shadow-sm border border-[#e2d7c3]">Secundario</button>
+                </div>
+                <div class="flex justify-center p-3 bg-white rounded-xl border border-[#e2d7c3] shadow-sm">
+                     <img id="qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=BEGIN%3AVCARD%0AVERSION%3A3.0%0AFN%3ARinconada%20Floreria%20Principal%0ATEL%3A%2B524525004007%0AEMAIL%3Akikico007%40gmail.com%0AEND%3AVCARD" alt="Código QR de Contacto" class="rounded-lg">
+                </div>
+                <p id="qr-label-name" class="text-xs font-semibold text-[#122318] mt-3 uppercase tracking-wider">Rinconada Floreria Principal</p>
+                <p id="qr-label-phone" class="text-xs text-gray-500 font-mono mt-0.5">+52 452 500 4007</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE GUARDAR CONTACTO -->
+    <div id="save-contact-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-header-title">Guardar Contactos</h2>
+                <button class="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="text-xs text-gray-600 text-center mb-4">Selecciona el contacto independiente que deseas guardar en tu agenda:</p>
+                <div class="space-y-3">
+                    <div class="bg-[#f8f6f0] border border-[#e2d7c3] rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+                        <div class="text-center sm:text-left">
+                            <span class="text-[10px] uppercase tracking-widest font-bold text-[#c5a059]">Línea Principal</span>
+                            <p class="font-bold text-[#122318] text-sm mt-0.5">Rinconada Florería (Principal)</p>
+                            <p class="text-xs text-gray-500 font-mono">+52 452 500 4007</p>
+                        </div>
+                        <button onclick="downloadVCard(1)" class="w-full sm:w-auto bg-[#122318] text-[#d4b37a] text-xs px-4 py-2.5 rounded-full font-medium flex items-center justify-center gap-1.5 hover:bg-[#1d3626] transition shadow-sm">
+                            <i class="fas fa-download"></i> Guardar Principal
+                        </button>
+                    </div>
+
+                    <div class="bg-[#f8f6f0] border border-[#e2d7c3] rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+                        <div class="text-center sm:text-left">
+                            <span class="text-[10px] uppercase tracking-widest font-bold text-[#c5a059]">Línea Secundaria</span>
+                            <p class="font-bold text-[#122318] text-sm mt-0.5">Rinconada Florería (Secundaria)</p>
+                            <p class="text-xs text-gray-500 font-mono">+52 452 182 1523</p>
+                        </div>
+                        <button onclick="downloadVCard(2)" class="w-full sm:w-auto bg-[#122318] text-[#d4b37a] text-xs px-4 py-2.5 rounded-full font-medium flex items-center justify-center gap-1.5 hover:bg-[#1d3626] transition shadow-sm">
+                            <i class="fas fa-download"></i> Guardar Secundaria
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleAccordion(id) {
+            const content = document.getElementById(id);
+            const icon = document.getElementById('icon-' + id);
+            if (content && icon) {
+                content.classList.toggle('hidden');
+                icon.classList.toggle('rotate-180');
+            }
+        }
+
+        const setupModal = (btnId, modalId) => {
+            const btn = document.getElementById(btnId);
+            const modal = document.getElementById(modalId);
+            if(btn && modal) {
+                btn.addEventListener('click', () => modal.classList.add('active'));
+                modal.querySelector('.modal-close-btn').addEventListener('click', () => modal.classList.remove('active'));
+                modal.addEventListener('click', (event) => { if (event.target === modal) modal.classList.remove('active'); });
+            }
+        };
+
+        setupModal('info-btn', 'info-modal');
+        setupModal('call-btn', 'call-modal');
+        setupModal('social-whatsapp-btn', 'call-modal');
+        
+        const servicesBtn = document.getElementById('services-btn');
+        const servicesModal = document.getElementById('services-modal');
+        if(servicesBtn && servicesModal) {
+            servicesBtn.addEventListener('click', () => {
+                const allContents = document.querySelectorAll('[id^="serv-"]');
+                allContents.forEach(el => el.classList.add('hidden'));
+                const allIcons = document.querySelectorAll('[id^="icon-serv-"]');
+                allIcons.forEach(el => el.classList.remove('rotate-180'));
+                
+                const sliderContainer = document.getElementById('catalog-slider-container');
+                if(sliderContainer) sliderContainer.classList.add('hidden');
+                const listContainer = document.getElementById('services-list-container');
+                if(listContainer) listContainer.classList.remove('hidden');
+                const modalTitle = document.getElementById('services-modal-title');
+                if(modalTitle) modalTitle.innerText = 'Nuestros Servicios';
+                const backBtn = document.getElementById('services-back-btn');
+                if(backBtn) backBtn.classList.add('hidden');
+
+                servicesModal.classList.add('active');
+            });
+            servicesModal.querySelector('.modal-close-btn').addEventListener('click', () => servicesModal.classList.remove('active'));
+            servicesModal.addEventListener('click', (event) => { if (event.target === servicesModal) servicesModal.classList.remove('active'); });
+        }
+
+        setupModal('horario-btn', 'horario-modal');
+        setupModal('install-btn', 'install-modal');
+        setupModal('qr-code-btn', 'qr-code-modal');
+        setupModal('save-contact-btn', 'save-contact-modal');
+
+        function setQRContact(type) {
+            const qrImg = document.getElementById('qr-img');
+            const btnPrinc = document.getElementById('qr-btn-principal');
+            const btnSec = document.getElementById('qr-btn-secundario');
+            const labelName = document.getElementById('qr-label-name');
+            const labelPhone = document.getElementById('qr-label-phone');
+
+            if (type === 'principal') {
+                const vCardData = "BEGIN:VCARD\nVERSION:3.0\nFN:Rinconada Floreria Principal\nTEL:+524525004007\nEMAIL:kikico007@gmail.com\nEND:VCARD";
+                qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(vCardData)}`;
+                btnPrinc.className = "bg-[#122318] text-[#d4b37a] text-xs px-3 py-1.5 rounded-full font-medium transition shadow-sm border border-[#c5a059]";
+                btnSec.className = "bg-[#f7f4ee] text-[#122318] text-xs px-3 py-1.5 rounded-full font-medium transition shadow-sm border border-[#e2d7c3]";
+                labelName.innerText = "Rinconada Floreria Principal";
+                labelPhone.innerText = "+52 452 500 4007";
+            } else {
+                const vCardData = "BEGIN:VCARD\nVERSION:3.0\nFN:Rinconada Floreria Secundario\nTEL:+524521821523\nEMAIL:kikico007@gmail.com\nEND:VCARD";
+                qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(vCardData)}`;
+                btnSec.className = "bg-[#122318] text-[#d4b37a] text-xs px-3 py-1.5 rounded-full font-medium transition shadow-sm border border-[#c5a059]";
+                btnPrinc.className = "bg-[#f7f4ee] text-[#122318] text-xs px-3 py-1.5 rounded-full font-medium transition shadow-sm border border-[#e2d7c3]";
+                labelName.innerText = "Rinconada Floreria Secundario";
+                labelPhone.innerText = "+52 452 182 1523";
+            }
+        }
+
+        let currentSlide = 0;
+        let currentCatalogItems = [];
+
+        function speakText(text) {
+            if (!('speechSynthesis' in window)) return;
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'es-MX';
+            utterance.rate = 0.92;
+            utterance.pitch = 1.0;
+
+            const setVoiceAndSpeak = () => {
+                const voices = window.speechSynthesis.getVoices();
+                const femaleSpanishVoice = voices.find(v => 
+                    v.lang.startsWith('es') && 
+                    (v.name.toLowerCase().includes('female') || 
+                     v.name.toLowerCase().includes('mónica') || 
+                     v.name.toLowerCase().includes('monica') || 
+                     v.name.toLowerCase().includes('paolina') || 
+                     v.name.toLowerCase().includes('sabina') || 
+                     v.name.toLowerCase().includes('paloma') || 
+                     v.name.toLowerCase().includes('luciana') || 
+                     v.name.toLowerCase().includes('victoria') || 
+                     v.name.toLowerCase().includes('google español') || 
+                     v.name.toLowerCase().includes('google spanish'))
+                ) || voices.find(v => v.lang.startsWith('es'));
+
+                if (femaleSpanishVoice) {
+                    utterance.voice = femaleSpanishVoice;
+                }
+
+                window.speechSynthesis.cancel();
+                window.speechSynthesis.speak(utterance);
+            };
+
+            if (window.speechSynthesis.getVoices().length > 0) {
+                setVoiceAndSpeak();
+            } else {
+                window.speechSynthesis.onvoiceschanged = setVoiceAndSpeak;
+            }
+        }
+
+        function verCatalogo(categoria) {
+            const catalogData = {
+                'iglesias': {
+                    title: 'Decoración de Iglesias',
+                    serviceName: 'Decoración de Iglesias',
+                    desc: 'Diseño y montaje floral solemne y elegante para recintos sagrados, transformando altares, pasillos y accesos en atmósferas memorables.',
+                    items: [
+                        { img: 'iglesia1.jpg' },
+                        { img: 'iglesia4.jpeg' },
+                        { img: 'iglesia6.jpg' },
+                        { img: 'iglesia7.jpg' },
+                        { img: 'iglesia9.jpg' },
+                        { img: 'iglesia10.jpg' },
+                        { img: 'iglesia11.jpg' },
+                        { img: 'iglesia12.jpg' },
+                        { img: 'iglesia14.jpeg' },
+                        { img: 'iglesia16.jpeg' }
+                    ]
+                },
+                'ramos': {
+                    title: 'Ramos Quinceañera / Novia',
+                    serviceName: 'Ramos para Quinceañera o Novia',
+                    desc: 'Ramos de autor personalizados creados con flores frescas y exclusivas, diseñados para complementar con distinción y armonía tu gran día.',
+                    items: [
+                        { img: 'ramos1.jpeg' },
+                        { img: 'ramos2.jpeg' },
+                        { img: 'ramos3.jpeg' },
+                        { img: 'ramos7.jpeg' },
+                        { img: 'ramos8.jpeg' }
+                    ]
+                },
+                'carros': {
+                    title: 'Decoración de Carros',
+                    serviceName: 'Decoración de Carros',
+                    desc: 'Estilismo floral especializado para vehículos de ceremonia, empleando técnicas de fijación segura que garantizan frescura y elegancia.',
+                    items: [
+                        { img: 'carros1.jpeg' },
+                        { img: 'carros2.jpeg' },
+                        { img: 'carros3.jpeg' },
+                        { img: 'carros4.jpeg' },
+                        { img: 'carros6.jpeg' },
+                        { img: 'carros7.jpeg' },
+                        { img: 'carros8.jpeg' },
+                        { img: 'carros9.jpeg' },
+                        { img: 'carros10.jpeg' },
+                        { img: 'carros11.jpeg' }
+                    ]
+                },
+                'centros': {
+                    title: 'Centros de Mesa',
+                    serviceName: 'Centros de Mesa',
+                    desc: 'Conceptos florales originales y sofisticados para mesas de banquete en bautizos, bodas, quince años y eventos sociales.',
+                    items: [
+                        { img: 'centros1.jpeg' },
+                        { img: 'centros2.jpeg' },
+                        { img: 'centros3.jpeg' },
+                        { img: 'centros4.jpeg' },
+                        { img: 'centros5.jpeg' },
+                        { img: 'centros6.jpeg' },
+                        { img: 'centros7.jpeg' },
+                        { img: 'centros8.jpeg' },
+                        { img: 'centros9.jpeg' },
+                        { img: 'centros10.jpeg' },
+                        { img: 'centros11.jpeg' },
+                        { img: 'centros12.jpeg' },
+                        { img: 'centros13.jpeg' },
+                        { img: 'centros14.jpeg' },
+                        { img: 'centros16.jpeg' },
+                        { img: 'centros17.jpeg' },
+                        { img: 'centros18.jpeg' },
+                        { img: 'centros19.jpeg' },
+                        { img: 'centros20.jpeg' }
+                    ]
+                },
+                'funebres': {
+                    title: 'Arreglos Fúnebres',
+                    serviceName: 'Arreglos Fúnebres',
+                    desc: 'Arreglos de condolencia formales y solemnes con coronas, pedestales y piezas florales sobrias para brindar apoyo y respeto.',
+                    items: [
+                        { img: 'funebres2.jpeg' },
+                        { img: 'funebres3.jpeg' },
+                        { img: 'funebres4.jpeg' },
+                        { img: 'funebres5.jpeg' },
+                        { img: 'funebres6.jpeg' },
+                        { img: 'funebres7.jpeg' },
+                        { img: 'funebres8.jpeg' },
+                        { img: 'funebres9.jpeg' }
+                    ]
+                }
+            };
+
+            const cat = catalogData[categoria] || catalogData['iglesias'];
+            currentCatalogItems = cat.items;
+            currentSlide = 0;
+
+            document.getElementById('services-modal-title').innerText = cat.title;
+            document.getElementById('services-back-btn').classList.remove('hidden');
+            document.getElementById('services-list-container').classList.add('hidden');
+            
+            const sliderContainer = document.getElementById('catalog-slider-container');
+            sliderContainer.classList.remove('hidden');
+            document.getElementById('catalog-desc').innerText = cat.desc;
+
+            const spokenTitle = cat.serviceName || cat.title;
+            speakText(`${spokenTitle}. ${cat.desc}`);
+
+            renderSlider();
+
+            const backBtn = document.getElementById('services-back-btn');
+            backBtn.onclick = () => {
+                if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+                sliderContainer.classList.add('hidden');
+                document.getElementById('services-list-container').classList.remove('hidden');
+                document.getElementById('services-modal-title').innerText = 'Nuestros Servicios';
+                backBtn.classList.add('hidden');
+
+                const allContents = document.querySelectorAll('[id^="serv-"]');
+                allContents.forEach(el => el.classList.add('hidden'));
+                const allIcons = document.querySelectorAll('[id^="icon-serv-"]');
+                allIcons.forEach(el => el.classList.remove('rotate-180'));
+            };
+        }
+
+        function renderSlider() {
+            const track = document.getElementById('slider-track');
+            const dotsContainer = document.getElementById('slider-dots');
+
+            track.innerHTML = currentCatalogItems.map(item => `
+                <div class="w-full flex-shrink-0 flex flex-col h-full bg-[#09120c] rounded-xl overflow-hidden items-center justify-center relative p-2">
+                    <div class="absolute inset-0 bg-cover bg-center filter blur-xl opacity-30 pointer-events-none" style="background-image: url('${item.img}')"></div>
+                    <div class="h-64 sm:h-72 w-full relative z-10 flex items-center justify-center overflow-hidden p-1">
+                        <img src="${item.img}" alt="Diseño floral" class="max-w-full max-h-full w-auto h-auto object-contain rounded-lg shadow-xl border border-[#c5a059]/30 bg-black/40" onerror="this.onerror=null; this.src='https://placehold.co/400x300/122318/d4b37a?text=Rinconada+Floreria';">
+                    </div>
+                </div>
+            `).join('');
+
+            dotsContainer.innerHTML = currentCatalogItems.map((_, i) => `
+                <button onclick="goToSlide(${i})" class="w-2 h-2 rounded-full transition-all duration-300 ${i === currentSlide ? 'bg-[#c5a059] w-5' : 'bg-[#e2d7c3]'}" aria-label="Slide ${i + 1}"></button>
+            `).join('');
+
+            updateSliderPosition();
+        }
+
+        function moveSlider(direction) {
+            currentSlide = (currentSlide + direction + currentCatalogItems.length) % currentCatalogItems.length;
+            updateSliderPosition();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSliderPosition();
+        }
+
+        function updateSliderPosition() {
+            const track = document.getElementById('slider-track');
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+            const dots = document.getElementById('slider-dots').children;
+            for (let i = 0; i < dots.length; i++) {
+                if (i === currentSlide) {
+                    dots[i].className = 'h-2 rounded-full transition-all duration-300 bg-[#c5a059] w-5';
+                } else {
+                    dots[i].className = 'h-2 w-2 rounded-full transition-all duration-300 bg-[#e2d7c3]';
+                }
+            }
+
+            const activeModalTitle = document.getElementById('services-modal-title').innerText;
+            const ctaContainer = document.getElementById('slider-cta-container');
+            if (ctaContainer) {
+                const encodedMsg = encodeURIComponent(`¡Hola!, revise tu tarjeta de presentacion y me interesa el servicio de ${activeModalTitle}`);
+                ctaContainer.innerHTML = `
+                    <div class="flex flex-col gap-2">
+                        <a href="https://wa.me/524525004007?text=${encodedMsg}" target="_blank" class="w-full bg-gradient-to-r from-[#c5a059] to-[#a47e3b] text-white text-xs font-semibold py-2.5 px-3 rounded-xl text-center flex items-center justify-center gap-2 hover:brightness-110 transition shadow-md leading-tight">
+                            <i class="fab fa-whatsapp text-sm"></i>
+                            <span>Cotizar este servicio</span>
+                        </a>
+                        <a href="tel:+524525004007" class="w-full bg-[#122318] text-[#d4b37a] text-xs font-semibold py-2.5 px-3 rounded-xl text-center flex items-center justify-center gap-2 hover:bg-[#1d3626] transition shadow-sm">
+                            <i class="fas fa-phone-alt text-xs"></i>
+                            <span>Solicitar información</span>
+                        </a>
+                    </div>
+                `;
+            }
+        }
+
+        function downloadVCard(type) {
+            let vCard = "";
+            let filename = "RinconadaFloreriaContacto.vcf";
+            
+            if (type === 1) {
+                vCard = "BEGIN:VCARD\nVERSION:3.0\nFN:Rinconada Florería (Principal)\nTEL;TYPE=CELL,VOICE:+524525004007\nEMAIL:kikico007@gmail.com\nORG:Rinconada Florería\nTITLE:Alta Floristería & Bodas\nEND:VCARD";
+                filename = "RinconadaFloreria_Principal.vcf";
+            } else {
+                vCard = "BEGIN:VCARD\nVERSION:3.0\nFN:Rinconada Florería (Secundaria)\nTEL;TYPE=WORK,VOICE:+524521821523\nEMAIL:kikico007@gmail.com\nORG:Rinconada Florería\nTITLE:Alta Floristería & Bodas\nEND:VCARD";
+                filename = "RinconadaFloreria_Secundaria.vcf";
+            }
+
+            const blob = new Blob([vCard], { type: "text/vcard" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function toggleCredits() {
+            const banner = document.getElementById('credits-banner');
+            if (banner) {
+                banner.classList.toggle('hidden');
+                if (!banner.classList.contains('hidden')) {
+                    speakText("Si te interesa una tarjeta de presentación digital, solicita nuestro contacto al Ing. Jorge Hernández.");
+                    setTimeout(() => {
+                        banner.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                    }, 50);
+                }
+            }
+        }
+
+        function speakWelcome() {
+            if (!('speechSynthesis' in window)) return;
+            if (window.hasSpokenWelcome) return;
+
+            // Reanudar síntesis de voz en caso de estado pausado por Chrome
+            if (window.speechSynthesis.paused) {
+                window.speechSynthesis.resume();
+            }
+
+            const text = "Bienvenido a Rinconada Florería, por Jorge Hernández desde 1989. Te ofrecemos el diseño floral exclusivo para que tus eventos sean inolvidables. Explora nuestra tarjeta para conocer nuestros servicios y comunícate con nosotros...";
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'es-MX';
+            utterance.rate = 0.92;
+            utterance.pitch = 1.0;
+
+            // Marcar como reproducido únicamente cuando comience a hablar de forma efectiva
+            utterance.onstart = () => {
+                window.hasSpokenWelcome = true;
+            };
+
+            const setVoiceAndSpeak = () => {
+                if (window.hasSpokenWelcome) return;
+
+                const voices = window.speechSynthesis.getVoices();
+                const femaleSpanishVoice = voices.find(v => 
+                    v.lang.startsWith('es') && 
+                    (v.name.toLowerCase().includes('female') || 
+                     v.name.toLowerCase().includes('mónica') || 
+                     v.name.toLowerCase().includes('monica') || 
+                     v.name.toLowerCase().includes('paolina') || 
+                     v.name.toLowerCase().includes('sabina') || 
+                     v.name.toLowerCase().includes('paloma') || 
+                     v.name.toLowerCase().includes('luciana') || 
+                     v.name.toLowerCase().includes('victoria') || 
+                     v.name.toLowerCase().includes('google español') || 
+                     v.name.toLowerCase().includes('google spanish'))
+                ) || voices.find(v => v.lang.startsWith('es'));
+
+                if (femaleSpanishVoice) {
+                    utterance.voice = femaleSpanishVoice;
+                }
+
+                window.speechSynthesis.cancel();
+                window.speechSynthesis.speak(utterance);
+
+                // Forzar reanudación para evitar congelamiento de reproducción en móviles/Chrome
+                if (window.speechSynthesis.paused) {
+                    window.speechSynthesis.resume();
+                }
+            };
+
+            if (window.speechSynthesis.getVoices().length > 0) {
+                setVoiceAndSpeak();
+            } else {
+                window.speechSynthesis.onvoiceschanged = setVoiceAndSpeak;
+            }
+        }
+
+        // Precargar lista de voces de síntesis en el navegador
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.getVoices();
+            if (window.speechSynthesis.onvoiceschanged !== undefined) {
+                window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+            }
+        }
+
+        window.addEventListener('load', () => {
+            setTimeout(speakWelcome, 300);
+        });
+
+        const triggerSpeechOnInteraction = () => {
+            if (!window.hasSpokenWelcome) {
+                speakWelcome();
+            }
+            if (window.hasSpokenWelcome) {
+                document.removeEventListener('click', triggerSpeechOnInteraction);
+                document.removeEventListener('touchstart', triggerSpeechOnInteraction);
+                document.removeEventListener('pointerdown', triggerSpeechOnInteraction);
+                document.removeEventListener('scroll', triggerSpeechOnInteraction);
+            }
+        };
+
+        document.addEventListener('click', triggerSpeechOnInteraction);
+        document.addEventListener('touchstart', triggerSpeechOnInteraction);
+        document.addEventListener('pointerdown', triggerSpeechOnInteraction);
+        document.addEventListener('scroll', triggerSpeechOnInteraction, { passive: true });
+    </script>
+</body>
+</html>

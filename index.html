@@ -437,7 +437,7 @@
                         </div>
                     </div>
 
-                    <!-- Servicio 5: Arreglos fúnebres--> 
+                    <!-- Servicio 5: Arreglos fúnebres
                     <div class="border border-[#e2d7c3] rounded-xl shadow-sm overflow-hidden">
                         <div class="flex items-center justify-between p-3 gap-2 bg-[#f8f6f0]">
                             <div class="flex items-center gap-2 cursor-pointer flex-grow min-w-0 group" onclick="toggleAccordion('serv-5')">
@@ -461,7 +461,8 @@
                         </div>
                     </div>
                 </div>
-
+                --> 
+                    
                 <!-- CONTENEDOR DEL SLIDER DE CATÁLOGO (OCULTO POR DEFECTO) -->
                 <div id="catalog-slider-container" class="hidden flex flex-col h-full">
                     <div class="mb-3 text-center bg-[#f0ebd9]/60 border border-[#d4b37a]/30 rounded-xl p-3 shadow-sm">
@@ -935,7 +936,8 @@
                         { img: 'centros19.jpeg' },
                         { img: 'centros20.jpeg' }
                     ]
-                },
+                }
+                /*,
                 'funebres': {
                     title: 'Arreglos Fúnebres',
                     serviceName: 'Arreglos Fúnebres',
@@ -952,7 +954,7 @@
                     ]
                 }
             };
-
+            */
             const cat = catalogData[categoria] || catalogData['iglesias'];
             currentCatalogItems = cat.items;
             currentSlide = 0;
